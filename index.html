@@ -16,17 +16,25 @@
 
         <!-- Main Content Section -->
         <main>
+            <!--Function to export and import-->
+            <button onclick="exportToCSV()" class="...">Export to CSV</button>
+            <input type="file" id="csvFileInput" onchange="importFromCSV(event)" class="...">
             <!-- Form for adding characters -->
-            <section id="characterForm">
-                <form class="mb-4">
-                    <input type="text" id="characterName" placeholder="Name" class="...">
-                    <input type="number" id="characterHP" placeholder="HP" class="...">
-                    <!-- Add more fields for other attributes -->
-                    <button type="submit" class="...">Add Character</button>
-                    
-                </form>
-            </section>
-
+            <p id="formStatusMessage"></p>
+        
+            <form id="characterForm" class="mb-4">
+                <input type="text" id="characterName" placeholder="Name" class="...">
+                <input type="number" id="characterHP" placeholder="HP" class="...">
+                <input type="number" id="characterInitiative" placeholder="Initiative" class="...">
+                <input type="number" id="characterAC" placeholder="AC" class="...">
+                <input type="number" id="characterFort" placeholder="Fort Save" class="...">
+                <input type="number" id="characterRef" placeholder="Ref Save" class="...">
+                <input type="number" id="characterWill" placeholder="Will Save" class="...">
+                <input type="number" id="characterPerception" placeholder="Perception" class="...">
+                <!-- Add more fields for other attributes -->
+                <button type="submit" class="...">Add Character</button>
+            </form>
+        
             <!-- Display area for characters -->
             <section id="charactersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 <!-- Character cards will be dynamically added here -->
