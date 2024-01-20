@@ -1,10 +1,39 @@
 // Array to store characters
 let characters = [];
 
-// Function to add a character
-function addCharacter(character) {
-    characters.push(character);
+let isEditMode = false;
+let editIndex = null;
+
+// Function to add or edit a character
+function handleFormSubmit(event) {
+    event.preventDefault();
+
+    const characterData = {
+        name: document.getElementById('characterName').value,
+        hp: document.getElementById('characterHP').value
+        // Retrieve other fields similarly
+    };
+
+    if (isEditMode) {
+        // Update existing character
+        characters[editIndex] = characterData;
+        isEditMode = false;
+        editIndex = null;
+    } else {
+        // Add new character
+        characters.push(characterData);
+    }
+
+    // Update UI and reset form
     updateCharacterList();
+    resetForm();
+}
+
+// Function to reset form to default state
+function resetForm() {
+    document.getElementById('characterForm').reset();
+    // Reset form's onsubmit to default
+    document.getElementById('characterForm').onsubmit = handleFormSubmit;
 }
 
 // Function to update character list in the UI
@@ -44,50 +73,20 @@ function updateCharacterList() {
 
 // Function to handle character editing
 function editCharacter(index) {
-    console.log("Editing character at index:", index);
     const character = characters[index];
 
     // Populate the form with character's current data
     document.getElementById('characterName').value = character.name;
     document.getElementById('characterHP').value = character.hp;
 
-    // Update the form's submit event to handle update
-    const form = document.getElementById('characterForm');
-    form.onsubmit = function(event) {
-        event.preventDefault();
-
-        // Update character with new values from form
-        character.name = document.getElementById('characterName').value;
-        character.hp = document.getElementById('characterHP').value;
-
-        // Reset form's submit event to default (add new character)
-        form.onsubmit = addNewCharacter;
-
-        // Update UI
-        updateCharacterList();
-    };
-}
-
-// Function to add a new character (used in form's onsubmit)
-function addNewCharacter(event) {
-    event.preventDefault();
-
-    // Retrieve form data
-    const name = document.getElementById('characterName').value;
-    const hp = document.getElementById('characterHP').value;
-
-    // Create a character object
-    const character = {
-        name: name,
-        hp: hp
-    };
-
-    // Add character to array and update UI
-    addCharacter(character);
+    // Set edit mode
+    isEditMode = true;
+    editIndex = index;
 }
 
 // Event listener for form submission
-document.getElementById('characterForm').addEventListener('submit', addNewCharacter);
+document.getElementById('characterForm').addEventListener('submit', handleFormSubmit);
 
-// Initial call to update UI
+// Initial call to update UI and reset form
 updateCharacterList();
+resetForm();
