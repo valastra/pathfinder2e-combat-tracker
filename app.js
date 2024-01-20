@@ -3,6 +3,8 @@ let characters = [];
 
 let isEditMode = false;
 let editIndex = null;
+let currentRound = 1;
+let currentInitiative = 99;
 
 // Function to add or edit a character
 function handleFormSubmit(event) {
@@ -34,7 +36,43 @@ function handleFormSubmit(event) {
     updateCharacterList();
     resetForm();
 }
+// Function to update the combat tracker
+function updateCombatTracker() {
+    // Sort characters by initiative
+    characters.sort((a, b) => b.initiative - a.initiative);
 
+    // If the current initiative is less than the lowest or undefined, reset for a new round
+    if (currentInitiative < characters[characters.length - 1].initiative || currentInitiative === undefined) {
+        currentInitiative = 99; // Reset to max initiative value
+        currentRound++; // Increment round
+        document.getElementById('currentRound').textContent = `Round: ${currentRound}`;
+    }
+
+    // Find the index of the next character whose turn it is
+    let nextCharacterIndex = characters.findIndex(char => char.initiative <= currentInitiative);
+
+    // Decrement currentInitiative to find the next character for the current round
+    currentInitiative = (nextCharacterIndex !== -1) ? characters[nextCharacterIndex].initiative - 1 : 99;
+
+    // If nextCharacterIndex is -1, no character is found, which means we need to loop back
+    nextCharacterIndex = (nextCharacterIndex !== -1) ? nextCharacterIndex : 0;
+
+    // Identify the character on deck (next in line after the current character)
+    let onDeckIndex = nextCharacterIndex + 1 >= characters.length ? 0 : nextCharacterIndex + 1;
+
+    // Update the UI for the current turn
+    document.getElementById('currentTurn').textContent = `It's ${characters[nextCharacterIndex].name}'s turn`;
+
+    // Update the UI for the character on deck
+    document.getElementById('onDeck').textContent = `On Deck: ${characters[onDeckIndex].name}`;
+
+    // Update the list display as needed
+    updateCharacterList();
+}
+
+
+// Add listener for the next turn button
+document.getElementById('nextTurnButton').addEventListener('click', updateCombatTracker);
 
 // Function to update character list in the UI
 function updateCharacterList() {

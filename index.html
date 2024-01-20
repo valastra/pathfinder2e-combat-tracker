@@ -19,6 +19,7 @@
             <!--Function to export and import-->
             <button onclick="exportToCSV()" class="...">Export to CSV</button>
             <input type="file" id="csvFileInput" onchange="importFromCSV(event)" class="...">
+            
             <!-- Form for adding characters -->
             <p id="formStatusMessage"></p>
         
@@ -34,9 +35,18 @@
                 <!-- Add more fields for other attributes -->
                 <button type="submit" class="...">Add Character</button>
             </form>
-        
+            <div id="combatTracker">
+                <div id="currentTurnSection">
+                    <h2>Current Turn</h2>
+                    <div id="currentTurn" class="character-highlight">Character Name</div>
+                </div>
+                <div id="onDeckSection">
+                    <h2>On Deck</h2>
+                    <div id="onDeck" class="character-highlight">Next Character Name</div>
+                </div>
+            </div>
             <!-- Display area for characters -->
-            <section id="charactersList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <section id="charactersList" class="...">
                 <!-- Character cards will be dynamically added here -->
             </section>
         </main>

@@ -1,0 +1,12 @@
+.character-highlight {
+    padding: 10px;
+    margin: 5px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+#currentTurnSection, #onDeckSection {
+    display: inline-block;
+    width: 45%; /* Adjust as necessary for your layout */
+    vertical-align: top;
+}
