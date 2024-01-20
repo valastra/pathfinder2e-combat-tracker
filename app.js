@@ -44,6 +44,7 @@ function updateCharacterList() {
 
 // Function to handle character editing
 function editCharacter(index) {
+    console.log("Editing character at index:", index);
     const character = characters[index];
 
     // Populate the form with character's current data
