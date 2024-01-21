@@ -33,22 +33,33 @@
                 <input type="number" id="characterWill" placeholder="Will Save" class="...">
                 <input type="number" id="characterPerception" placeholder="Perception" class="...">
                 <!-- Add more fields for other attributes -->
-                <button type="submit" class="...">Add Character</button>
+                <button type="submit">Add Character</button>
             </form>
-            <div id="combatTracker">
-                <div id="currentTurnSection">
-                    <h2>Current Turn</h2>
-                    <div id="currentTurn" class="character-highlight">Character Name</div>
+            <section id="roundAndTurnTracker">
+                <div id="roundCounter">
+                    <h2>Round: <span id="currentRound">1</span></h2>
                 </div>
-                <div id="onDeckSection">
-                    <h2>On Deck</h2>
-                    <div id="onDeck" class="character-highlight">Next Character Name</div>
+                <button id="nextTurnButton" class="...">Next Turn</button>
+                <div id="currentTurn">
+                    <h3>Current Turn</h3>
+                    <!-- Character Card for current turn -->
                 </div>
+                <div id="onDeck">
+                    <h3>On Deck</h3>
+                    <!-- Character Card for on deck -->
+                </div>
+            </section>
+            <section id="charactersList">
+                <h3>Other Characters</h3>
+                <!-- List of additional characters -->
+            </section>
             </div>
             <!-- Display area for characters -->
-            <section id="charactersList" class="...">
-                <!-- Character cards will be dynamically added here -->
-            </section>
+        <!-- Placeholder for Ongoing Effects (to be implemented) -->
+        <section id="ongoingEffects">
+            <h3>Ongoing Effects</h3>
+            <!-- Placeholder content -->
+        </section>
         </main>
 
         <!-- Footer Section -->

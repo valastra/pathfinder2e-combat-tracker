@@ -3,8 +3,6 @@ let characters = [];
 
 let isEditMode = false;
 let editIndex = null;
-let currentRound = 1;
-let currentInitiative = 99;
 
 // Function to add or edit a character
 function handleFormSubmit(event) {
@@ -37,42 +35,65 @@ function handleFormSubmit(event) {
     resetForm();
 }
 // Function to update the combat tracker
+// Assuming characters is an array of character objects with initiative values
+let currentRound = 1;
+let currentInitiative = 99;
 function updateCombatTracker() {
-    // Sort characters by initiative
+    // Sort characters by initiative in descending order
     characters.sort((a, b) => b.initiative - a.initiative);
 
-    // If the current initiative is less than the lowest or undefined, reset for a new round
-    if (currentInitiative < characters[characters.length - 1].initiative || currentInitiative === undefined) {
-        currentInitiative = 99; // Reset to max initiative value
-        currentRound++; // Increment round
-        document.getElementById('currentRound').textContent = `Round: ${currentRound}`;
+    // Check if the characters array is empty to avoid errors
+    if (characters.length === 0) {
+        console.log("No characters to display.");
+        return; // Exit the function early
     }
 
-    // Find the index of the next character whose turn it is
-    let nextCharacterIndex = characters.findIndex(char => char.initiative <= currentInitiative);
+    // Find the index of the character whose turn is next
+    let currentCharacterIndex = characters.findIndex(char => char.initiative < currentInitiative);
+    if (currentCharacterIndex === -1) {
+        // If no such character, it means a new round should start
+        currentCharacterIndex = 0;
+        currentRound++;
+        currentInitiative = characters[0].initiative; // Reset initiative for new round
+        currentCharacterIndex = 0;
+    } else {
+        // Set current initiative for the next update
+        currentInitiative = characters[currentCharacterIndex].initiative;
+    }
 
-    // Decrement currentInitiative to find the next character for the current round
-    currentInitiative = (nextCharacterIndex !== -1) ? characters[nextCharacterIndex].initiative - 1 : 99;
+    // Display the current turn character
+    const currentCharacter = characters[currentCharacterIndex];
+    document.getElementById('currentTurn').textContent = currentCharacter.name;
 
-    // If nextCharacterIndex is -1, no character is found, which means we need to loop back
-    nextCharacterIndex = (nextCharacterIndex !== -1) ? nextCharacterIndex : 0;
+    // Display the on deck character (next after current)
+    const onDeckIndex = (currentCharacterIndex + 1) % characters.length;
+    const onDeckCharacter = characters[onDeckIndex];
+    document.getElementById('onDeck').textContent = onDeckCharacter.name;
 
-    // Identify the character on deck (next in line after the current character)
-    let onDeckIndex = nextCharacterIndex + 1 >= characters.length ? 0 : nextCharacterIndex + 1;
+    // Display the round number
+    document.getElementById('currentRound').textContent = currentRound;
 
-    // Update the UI for the current turn
-    document.getElementById('currentTurn').textContent = `It's ${characters[nextCharacterIndex].name}'s turn`;
-
-    // Update the UI for the character on deck
-    document.getElementById('onDeck').textContent = `On Deck: ${characters[onDeckIndex].name}`;
-
-    // Update the list display as needed
-    updateCharacterList();
+    // Update the list of other characters
+    const otherCharactersList = document.getElementById('charactersList');
+    characters.forEach((char, index) => {
+        if (index !== currentCharacterIndex && index !== onDeckIndex) {
+            // Create and append character card for other characters
+            const charElement = document.createElement('div');
+            charElement.textContent = char.name;
+            // Add additional styling or classes as needed
+            otherCharactersList.appendChild(charElement);
+        }
+    });
 }
 
+// Initial call to setup the combat tracker
+updateCombatTracker();
 
-// Add listener for the next turn button
-document.getElementById('nextTurnButton').addEventListener('click', updateCombatTracker);
+
+// Add listener for Next Turn button
+document.getElementById('nextTurnButton').addEventListener('click', function() {
+    updateCombatTracker();
+});
 
 // Function to update character list in the UI
 function updateCharacterList() {
@@ -176,12 +197,19 @@ function deleteCharacter(index) {
 }
 // Function to reset form
 function resetForm() {
-    const form = document.getElementById('characterForm');
-    form.reset();
+    // Clear the form inputs
+    document.getElementById('characterForm').reset();
 
-    // Clear status message
+    // Clear any global state related to editing
+    isEditMode = false;
+    editIndex = null;
+
+    // Clear the status message
     const statusMessage = document.getElementById('formStatusMessage');
     statusMessage.textContent = '';
+
+    // Optionally, clear any visual cues for the currently selected character
+    // If you have some UI element that highlights the character being edited, reset that as well
 }
 // Attach event listener to the form for submission
 const formElement = document.getElementById('characterForm');

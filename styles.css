@@ -1,12 +1,24 @@
-.character-highlight {
-    padding: 10px;
-    margin: 5px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
+body {
+    font-family: 'Arial', sans-serif;
 }
 
-#currentTurnSection, #onDeckSection {
-    display: inline-block;
-    width: 45%; /* Adjust as necessary for your layout */
-    vertical-align: top;
+header, footer {
+    text-align: center;
+    padding: 1em;
+    background-color: #f4f4f4;
+}
+
+#roundAndTurnTracker {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+#roundCounter, #currentTurn, #onDeck {
+    flex-basis: 30%;
+    text-align: center;
+}
+
+#characterList, #ongoingEffects {
+    margin-top: 20px;
 }
