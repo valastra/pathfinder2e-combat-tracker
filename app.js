@@ -16,7 +16,8 @@ function handleFormSubmit(event) {
         fortSave: parseInt(document.getElementById('characterFort').value, 10) || 0,
         refSave: parseInt(document.getElementById('characterRef').value, 10) || 0,
         willSave: parseInt(document.getElementById('characterWill').value, 10) || 0,
-        perception: parseInt(document.getElementById('characterPerception').value, 10) || 0
+        perception: parseInt(document.getElementById('characterPerception').value, 10) || 0,
+        stealth: parseInt (document.getElementById('characterStealth').value, 10) || 0
         // Retrieve other fields similarly
     };
 
@@ -142,6 +143,10 @@ function updateCharacterList() {
         const initiativeElement = document.createElement('p');
         initiativeElement.textContent = `Initiative: ${character.initiative}`;
         characterCard.appendChild(initiativeElement);
+
+        const stealthElement = document.createElement('p');
+        stealthElement.textContent = `Stealth: ${character.stealth}`;
+        characterCard.appendChild(stealthElement);
 
         // Create Edit Button
         const editButton = document.createElement('button');
